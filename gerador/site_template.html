@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acervo de Listas de Matemática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Plano: catálogo sobre papel quadriculado; verde-lousa como acento; folhas A4 reais na pré-visualização. */
+:root{
+  --bg:#f4f6f3; --grid:#e3e8e2; --surface:#ffffff; --ink:#18201c; --muted:#5a665f;
+  --accent:#1d5c48; --accent-ink:#ffffff; --chalk:#f3d36b; --line:#d5dcd6;
+  --display:"Bitter","DejaVu Serif",Georgia,serif; --body:"Fira Sans","DejaVu Sans",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121815; --grid:#1b2420; --surface:#1a221e; --ink:#e7ede9; --muted:#9db0a6;
+  --accent:#6cc3a0; --accent-ink:#0d1a14; --chalk:#e9c95e; --line:#2c3a33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121815; --grid:#1b2420; --surface:#1a221e; --ink:#e7ede9; --muted:#9db0a6;
+  --accent:#6cc3a0; --accent-ink:#0d1a14; --chalk:#e9c95e; --line:#2c3a33; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.site{padding:36px 0 20px}
+.brand{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.5vw,42px);line-height:1.1;margin:0;text-wrap:balance}
+.brand em{font-style:normal;background:linear-gradient(transparent 62%,var(--chalk) 62%)}
+.lede{max-width:62ch;color:var(--muted);margin:10px 0 0}
+.stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:14px;color:var(--muted)}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+.chip{font:inherit;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip:disabled{opacity:.45;cursor:default}
+h2.seg{font-family:var(--display);font-weight:700;font-size:22px;margin:28px 0 10px;display:flex;gap:10px;align-items:baseline}
+h2.seg small{font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted)}
+ul.grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card-top{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.tag{background:var(--chalk);color:#2b2410;font-weight:600;padding:2px 8px;border-radius:4px}
+.tema{color:var(--muted)}
+.card h3{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.2;margin:2px 0 0;text-wrap:balance}
+.card h3 a{text-decoration:none}
+.card h3 a:hover{text-decoration:underline}
+.card-meta{margin:0;font-size:14px;color:var(--muted)}
+.bncc{font-size:12px}
+.card-actions{display:flex;gap:8px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:7px;
+  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible,.chip:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.empty{color:var(--muted);font-size:14px;margin:4px 0 0}
+.howto{margin:34px 0 40px;padding:16px 18px;border-left:4px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;font-size:15px;max-width:72ch}
+.howto p{margin:4px 0}
+.status{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.status.show{opacity:1}
+
+.toolbar{position:sticky;top:0;z-index:2;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 20px;background:var(--surface);border-bottom:1px solid var(--line)}
+.tb-title{font-family:var(--display);font-weight:700;font-size:17px;flex:1;min-width:180px}
+.tgl{font-size:14px;display:flex;gap:6px;align-items:center;color:var(--muted)}
+.paper-wrap{overflow-x:auto;padding:24px 16px 48px}
+.paper{display:flex;flex-direction:column;gap:20px;align-items:center;width:max-content;margin:0 auto}
+.paper .sheet{box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08)}
+.view:not([hidden]) ~ * {}
+.hide-gab .gab-wrap{display:none}
+
+{{SHEET_CSS}}
+
+@media (prefers-reduced-motion: reduce){.status{transition:none}}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  #catalogo,.toolbar,.status{display:none!important}
+  .paper-wrap{padding:0;overflow:visible}
+  .paper{gap:0;width:auto}
+  .paper .sheet{box-shadow:none;page-break-after:always;break-after:page}
+}
+</style>
+</head>
+<body>
+<main id="catalogo">
+  <div class="wrap">
+    <header class="site">
+      <h1 class="brand">Listas de matemática <em>prontas para imprimir</em></h1>
+      <p class="lede">Escolha o ano e o conteúdo, baixe o PDF em A4 e leve para a sala. Cada lista tem espaço para resolução e um gabarito do professor em página separada.</p>
+      <div class="stats"><span><b>{{N}}</b> listas</span><span><b>{{NQ}}</b> questões</span><span>1º ao 9º ano · alinhadas à BNCC</span></div>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filtrar por ano">{{CHIPS}}</div>
+
+    <h2 class="seg" id="seg-I">Ensino Fundamental I <small>1º ao 5º ano</small></h2>
+    <ul class="grid" id="grid-I">{{CARDS_I}}</ul>
+    <p class="empty" id="empty-I" hidden>Ainda não há listas para este ano. Elas entram nas próximas levas.</p>
+
+    <h2 class="seg" id="seg-II">Ensino Fundamental II <small>6º ao 9º ano</small></h2>
+    <ul class="grid" id="grid-II">{{CARDS_II}}</ul>
+    <p class="empty" id="empty-II" hidden>Ainda não há listas para este ano. Elas entram nas próximas levas.</p>
+
+    <div class="howto">
+      <p><b>Como imprimir:</b> clique em <b>Baixar PDF</b>, abra o arquivo e imprima em A4, tamanho real (100%).</p>
+      <p>O gabarito fica na última página de cada PDF. Para entregar aos alunos, imprima só a primeira página ou destaque o gabarito.</p>
+    </div>
+  </div>
+</main>
+
+{{VIEWS}}
+
+<div class="status" id="status" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var cat = document.getElementById('catalogo');
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var statusEl = document.getElementById('status');
+  var t;
+  function say(msg){ statusEl.textContent = msg; statusEl.classList.add('show'); clearTimeout(t); t = setTimeout(function(){statusEl.classList.remove('show');}, 3200); }
+
+  function route(){
+    var h = (location.hash || '').replace('#','');
+    var target = h.indexOf('lista-') === 0 ? document.getElementById('v-' + h.slice(6)) : null;
+    views.forEach(function(v){ v.hidden = v !== target; });
+    cat.hidden = !!target;
+    if (target) window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  // filtro por ano
+  var chips = document.querySelectorAll('.chip');
+  var anos = {};
+  document.querySelectorAll('.card').forEach(function(c){ anos[c.dataset.ano] = true; });
+  chips.forEach(function(ch){
+    ch.addEventListener('click', function(){
+      chips.forEach(function(x){ x.classList.toggle('on', x === ch); });
+      var f = ch.dataset.f;
+      ['I','II'].forEach(function(seg){
+        var vis = 0;
+        document.querySelectorAll('#grid-' + seg + ' .card').forEach(function(c){
+          var show = f === 'all' || c.dataset.ano === f; c.hidden = !show; if (show) vis++;
+        });
+        var segAnos = seg === 'I' ? ['1','2','3','4','5'] : ['6','7','8','9'];
+        var segRelevant = f === 'all' || segAnos.indexOf(f) >= 0;
+        document.getElementById('seg-' + seg).hidden = !segRelevant;
+        document.getElementById('grid-' + seg).hidden = !segRelevant;
+        document.getElementById('empty-' + seg).hidden = !(segRelevant && vis === 0);
+      });
+    });
+  });
+
+  // mostrar/ocultar gabarito
+  document.querySelectorAll('.gab-toggle').forEach(function(cb){
+    cb.addEventListener('change', function(){
+      cb.closest('.view').querySelector('.paper').classList.toggle('hide-gab', !cb.checked);
+    });
+  });
+
+  // downloads
+  var dl = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use('downloads').then(function(ns){ dl = ns; }).catch(function(){ dl = null; });
+  }
+  document.querySelectorAll('.dl').forEach(function(b){
+    b.addEventListener('click', function(){
+      var url = 'pdf/' + b.dataset.slug + '.pdf';
+      if (!dl) { window.location.href = url; return; }
+      say('Preparando o PDF…');
+      fetch(url).then(function(r){ if (!r.ok) throw new Error(r.status); return r.blob(); })
+        .then(function(blob){ return dl.save({filename: b.dataset.name, data: blob}); })
+        .then(function(){ say('PDF pronto.'); })
+        .catch(function(e){ say('Não foi possível baixar agora. Tente de novo em instantes.'); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
