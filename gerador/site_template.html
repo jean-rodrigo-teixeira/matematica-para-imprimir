@@ -56,6 +56,22 @@ ul.grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:re
   border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--accent)}
 .btn:focus-visible,.chip:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.trilha-intro{max-width:70ch;color:var(--muted);margin:0 0 14px;font-size:15px}
+.trilha-intro b{color:var(--ink)}
+.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.unit{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.unit-h h3{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.2;margin:2px 0 0;text-wrap:balance}
+.unit-h .bncc{margin:2px 0 0;color:var(--muted)}
+.un{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.steps li{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding:5px 0}
+ol.steps a{flex:1;display:flex;gap:9px;align-items:center;text-decoration:none;font-size:15px;line-height:1.3}
+ol.steps a:hover{text-decoration:underline}
+.pn{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;background:var(--chalk);color:#2b2410;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;flex:none}
+.ico{font:inherit;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 7px;border-radius:5px;border:1px solid var(--line);background:transparent;color:var(--accent);cursor:pointer}
+.ico:hover{border-color:var(--accent)}
+.unit-dl{margin-top:auto;align-self:flex-start}
+.trilha-actions{margin:14px 0 0}
 .empty{color:var(--muted);font-size:14px;margin:4px 0 0}
 .howto{margin:34px 0 40px;padding:16px 18px;border-left:4px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;font-size:15px;max-width:72ch}
 .howto p{margin:4px 0}
@@ -90,10 +106,17 @@ ul.grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:re
     <header class="site">
       <h1 class="brand">Listas de matemática <em>prontas para imprimir</em></h1>
       <p class="lede">Escolha o ano e o conteúdo, baixe o PDF em A4 e leve para a sala. Cada lista tem espaço para resolução e um gabarito do professor em página separada.</p>
-      <div class="stats"><span><b>{{N}}</b> listas</span><span><b>{{NQ}}</b> questões</span><span>1º ao 9º ano · alinhadas à BNCC</span></div>
+      <div class="stats"><span><b>{{N}}</b> listas e passos</span><span><b>{{NQ}}</b> exercícios</span><span>1º ao 9º ano · alinhadas à BNCC</span></div>
     </header>
 
     <div class="filters" role="group" aria-label="Filtrar por ano">{{CHIPS}}</div>
+
+    <section id="trilha">
+      <h2 class="seg">Trilha do 1º ano <small>{{NPASSOS}} passos em sequência</small></h2>
+      <p class="trilha-intro">Uma passada curta de cada vez, com muita prática. Cada passo tem a <b>Folha A</b>, com apoio visual (objetos, quadro de dez, ligações de números, reta numérica, modelo de barras), e a <b>Folha B</b>, de treino. O gabarito traz o objetivo e o critério para avançar: 90% de acertos na Folha B.</p>
+      <div class="units">{{TRILHA}}</div>
+      <div class="trilha-actions"><button class="btn dl" type="button" data-slug="1ano-trilha-completa" data-name="trilha-1ano-completa.pdf">Baixar a trilha completa (PDF)</button></div>
+    </section>
 
     <h2 class="seg" id="seg-I">Ensino Fundamental I <small>1º ao 5º ano</small></h2>
     <ul class="grid" id="grid-I">{{CARDS_I}}</ul>
@@ -140,12 +163,13 @@ ul.grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:re
     ch.addEventListener('click', function(){
       chips.forEach(function(x){ x.classList.toggle('on', x === ch); });
       var f = ch.dataset.f;
+      document.getElementById('trilha').hidden = !(f === 'all' || f === '1');
       ['I','II'].forEach(function(seg){
         var vis = 0;
         document.querySelectorAll('#grid-' + seg + ' .card').forEach(function(c){
           var show = f === 'all' || c.dataset.ano === f; c.hidden = !show; if (show) vis++;
         });
-        var segAnos = seg === 'I' ? ['1','2','3','4','5'] : ['6','7','8','9'];
+        var segAnos = seg === 'I' ? ['2','3','4','5'] : ['6','7','8','9'];
         var segRelevant = f === 'all' || segAnos.indexOf(f) >= 0;
         document.getElementById('seg-' + seg).hidden = !segRelevant;
         document.getElementById('grid-' + seg).hidden = !segRelevant;

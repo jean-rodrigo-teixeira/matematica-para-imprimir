@@ -14,7 +14,29 @@ Cada lista traz:
 
 Imprima em A4, tamanho real (100%).
 
-## Listas disponíveis
+## Trilha do 1º ano
+
+Sequência de 49 passos curtos, inspirada no que há de melhor em três abordagens:
+- **Kumon:** avanço em passos bem pequenos, muita repetição e folhas de treino cronometradas;
+- **Método de Singapura:** concreto → pictórico → abstrato, ligações de números, fazer 10 e modelo de barras para problemas;
+- **Khan Academy:** domínio antes de avançar (critério de 90% de acertos na Folha B, indicado no gabarito).
+
+Cada passo tem **Folha A** (com apoio visual), **Folha B** (treino) e **gabarito do professor** com objetivo, critério de avanço e habilidades BNCC.
+
+| Unidade | Tema | Passos | PDF |
+|---|---|---|---|
+| 1 | Contar e escrever até 10 | 1. Contar até 5, 2. Contar até 10, 3. Escrever os números de 0 a 10, 4. Quadro de dez, 5. Antes, depois e entre, 6. Mais, menos e igual, 7. Números ordinais | [PDF](docs/pdf/1ano-unidade-1.pdf) |
+| 2 | Compor e decompor até 10 | 8. As partes do 5, 9. As partes do 6 e do 7, 10. As partes do 8 e do 9, 11. Amigos do 10, 12. Ligações de números até 10 | [PDF](docs/pdf/1ano-unidade-2.pdf) |
+| 3 | Adição até 10 | 13. Juntar com figuras, 14. Somar 1, 15. Somar 2, 16. Somar 0 e somar 3, 17. Adição na reta numérica, 18. Treino: adição até 10, 19. Problemas de juntar e acrescentar | [PDF](docs/pdf/1ano-unidade-3.pdf) |
+| 4 | Subtração até 10 | 20. Tirar com figuras, 21. Tirar 1, 22. Tirar 2, 23. Subtração na reta numérica, 24. Quanto falta?, 25. Treino: subtração até 10, 26. Famílias de fatos, 27. Problemas de tirar, separar e comparar | [PDF](docs/pdf/1ano-unidade-4.pdf) |
+| 5 | Números até 20 | 28. Contar até 20, 29. Dez e mais, 30. Ordem e comparação até 20, 31. Dobros, 32. Fazer 10 para somar, 33. Treino: adição até 20, 34. Subtração até 20, 35. Problemas até 20 | [PDF](docs/pdf/1ano-unidade-5.pdf) |
+| 6 | Números até 100 | 36. Contar de 10 em 10, 37. Dezenas e unidades, 38. Quadro de 100, 39. Contar de 2 em 2, de 5 em 5 e comparar, 40. Somar e tirar com dezenas | [PDF](docs/pdf/1ano-unidade-6.pdf) |
+| 7 | Geometria e localização | 41. Figuras planas, 42. Sólidos geométricos, 43. Padrões e sequências, 44. Posição e localização | [PDF](docs/pdf/1ano-unidade-7.pdf) |
+| 8 | Medidas, tempo, dinheiro e dados | 45. Comparar comprimentos, 46. Calendário, 47. Dinheiro: cédulas e moedas, 48. Certo, talvez ou impossível, 49. Tabelas e gráficos | [PDF](docs/pdf/1ano-unidade-8.pdf) |
+
+Trilha inteira em um arquivo: [`docs/pdf/1ano-trilha-completa.pdf`](docs/pdf/1ano-trilha-completa.pdf).
+
+## Listas avulsas (2º ao 9º ano)
 
 | Ano | Conteúdo | BNCC | PDF |
 |-----|----------|------|-----|
@@ -34,7 +56,10 @@ Imprima em A4, tamanho real (100%).
 ```
 docs/            site (index.html) e PDFs gerados — pasta servida pelo GitHub Pages
 gerador/
-  content.py     conteúdo das listas (enunciados, subitens, gabarito, BNCC)
+  content.py     listas avulsas do 2º ao 9º ano (enunciados, gabarito, BNCC)
+  primeiro_ano.py  trilha do 1º ano (exercícios gerados com gabarito calculado)
+  figuras.py     figuras SVG (quadro de dez, ligações de números, reta, barras, material dourado…)
+  render1.py     layout das folhas da trilha
   build.py       gera o site e os PDFs
   site_template.html
 ```
